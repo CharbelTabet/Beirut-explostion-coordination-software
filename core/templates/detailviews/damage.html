@@ -1,0 +1,23 @@
+{% extends '../layouts/detail.html' %}
+{% block header %}{{ object.level }} damages at '{{ object.address }}' - Beirut{% endblock %}
+{% block details %}
+<div>
+    <h4>About</h4>
+    {{ object.description }}
+</div>
+<div>
+    <br>
+    <h4>Needs</h4>
+    List of needs:
+    <p>
+        
+    </p>
+</div>
+<div>
+    <br>
+    <h4>Contact information</h4>
+    <p>
+        {{ object.contact }}
+    </p>
+</div>
+{% endblock %}

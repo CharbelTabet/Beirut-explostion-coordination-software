@@ -1,0 +1,21 @@
+{% extends './main.html' %}
+{% block content %}
+<div class="mt-4">
+    <h2>Details about {% block header %}{% endblock %}</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            {% block details %}{% endblock %}
+        </div>
+        <div class="col-lg-6 col-md-12" style="height: 400px;">
+            <h4>Map</h4>
+            <div id="map" style="height: 100%;"></div>
+            <center>
+                Coordinates: (<span class="lng">{{object.lng}}</span>, <span class="lat">{{object.lat}}</span>)
+            </center>
+            {% include '../maps/detailMap.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

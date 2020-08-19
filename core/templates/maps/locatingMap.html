@@ -1,0 +1,45 @@
+<div id="map" style="height: 100%;"></div>
+<script>
+    function initMap() {
+    var myLatlng = {lat: 33.894317, lng: 35.5002621}
+
+    var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 14, center: myLatlng});
+
+    // Create the initial InfoWindow.
+    var infoWindow = new google.maps.InfoWindow(
+        {content: 'Click the map to get and copy Lat/Lng!', position: myLatlng});
+    infoWindow.open(map);
+
+    // Configure the click listener.
+    map.addListener('click', function(mapsMouseEvent) {
+        // Close the current InfoWindow.
+        infoWindow.close();
+        
+        // Get clicked coordinates
+        latLng = mapsMouseEvent.latLng.toString()
+
+        // Create a new InfoWindow.
+        infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
+        infoWindow.setContent(`${latLng} <br> <center class="text-success">coppied to clipboard!</center>`);
+        infoWindow.open(map);
+
+        // Filling form with coordinates
+        commaIndex = latLng.indexOf(',');
+        parenthesisIndex = latLng.length - 1;
+        document.getElementsByName('lat')[0].value = latLng.slice(1, commaIndex);
+        document.getElementsByName('lng')[0].value = latLng.slice(commaIndex + 2, parenthesisIndex);
+        document.getElementsByName('address')[0].value = 'unnamed address';
+
+        // Add to copy buffer
+        navigator.clipboard.writeText(latLng).then(function() {
+            console.log('Async: Copying to clipboard was successful!');
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+            });
+        });
+    }
+</script>
+<script defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsdSifw0uEsgwuqe5cWh2FZZRhoYUg-6c&callback=initMap">
+</script>
