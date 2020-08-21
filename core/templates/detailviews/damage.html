@@ -1,5 +1,5 @@
 {% extends '../layouts/detail.html' %}
-{% block header %}{{ object.level }} damages at '{{ object.address }}' - Beirut{% endblock %}
+{% block header %}{{ object.level }} damages at "{{ object.address }}" - Beirut{% endblock %}
 {% block details %}
 <div>
     <h4>About</h4>
@@ -8,10 +8,13 @@
 <div>
     <br>
     <h4>Needs</h4>
-    List of needs:
-    <p>
-        
-    </p>
+    {% include '../listviews/needsList.html' %}
+    <h5>Add needs</h5>
+    <form method="POST">
+        <div class="row">
+            {% include '../forms/needForm.html' %}
+        </div>
+    </form>
 </div>
 <div>
     <br>
@@ -19,5 +22,9 @@
     <p>
         {{ object.contact }}
     </p>
+</div>
+<div>
+    <hr>
+    <a href="{% url 'updateDamage' object.pk %}">Update</a> - <a href="{% url 'deleteDamage' object.pk %}" class="text-danger">Delete</a>
 </div>
 {% endblock %}

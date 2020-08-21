@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django import forms
 from . import models
+from . import forms
 
 # Dashboard sections
 class Map(TemplateView):
@@ -26,6 +27,7 @@ class ChartsList(TemplateView):
 class TablesList(TemplateView):
     template_name = 'analytics/tables.html'
 
+
 # Forms
 class CreatePosition(CreateView):
     model = models.position
@@ -45,20 +47,70 @@ class PositionDetail(DetailView):
     model = models.position
     template_name = 'detailviews/position.html'
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['needs'] = models.need.objects.filter(inNeed=self.kwargs['pk'])
+        data['needForm'] = forms.NeedForm
+        return data
+
+    def post(self, request, pk):
+        form = forms.NeedForm(request.POST)
+        obj = form.save(commit=False)
+        obj.inNeed = pk
+        obj.save()
+        return HttpResponseRedirect(self.request.path_info)
+
 class DamageDetail(DetailView):
     model = models.damage
     template_name = 'detailviews/damage.html'
+    
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['needs'] = models.need.objects.filter(inNeed=self.kwargs['pk'])
+        data['needForm'] = forms.NeedForm
+        return data
 
-# Data
-class Locations(View):
-    model = models.pin
-    def objects(self, request):
-        objects = self.model.objects.values()
-        return list(objects)
+    def post(self, request, pk):
+        form = forms.NeedForm(request.POST)
+        obj = form.save(commit=False)
+        obj.inNeed = pk
+        obj.save()
+        return HttpResponseRedirect(self.request.path_info)
 
-    def get(self, request):
-        return JsonResponse(self.objects(request), safe=False)
 
+# Update views
+class UpdatePosition(UpdateView):
+    model = models.position
+    fields = '__all__'
+    template_name = 'forms/updatePosition.html'
+
+    def get_success_url(self):
+        return '/position/{}'.format(self.object.pk)
+
+class UpdateDamage(UpdateView):
+    model = models.damage
+    fields = '__all__'
+    template_name = 'forms/updateDamage.html'
+
+    def get_success_url(self):
+        return '/damages/{}'.format(self.object.pk)
+
+
+# Delete view
+class DeletePosition(DeleteView):
+    model = models.position
+    fields = '__all__'
+    success_url = '/'
+    template_name = 'forms/deletePosition.html'
+
+class DeleteDamage(DeleteView):
+    model = models.damage
+    fields = '__all__'
+    success_url = '/'
+    template_name = 'forms/deleteDamage.html'
+
+
+# Data json response
 class Areas(View):
     model = models.area
     def objects(self, request):
@@ -87,6 +139,6 @@ class Damages(View):
         return JsonResponse(self.objects(request), safe=False)
 
 
-# Development
+# Development views
 class FullScreenMap(TemplateView):
     template_name = 'maps/fullscreenMap.html'

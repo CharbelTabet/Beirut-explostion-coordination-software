@@ -1,21 +1,12 @@
+import uuid
 from django.db import models
+from django.utils.timezone import now
+
 
 class LatLng(models.Model):
     lat = models.DecimalField(max_digits=17, decimal_places=15, verbose_name="Location's latitude")
     lng = models.DecimalField(max_digits=17, decimal_places=15, verbose_name="Location's Longitude")
     address = models.CharField(max_length=50, verbose_name="Short Address")
-
-class pin(LatLng):
-    choices = [
-        ('food', 'Food'),
-        ('construction', 'Construction'),
-        ('ngo', 'Ngo headquarter'),
-        ('danger', 'Danger'),
-        ('red cross', 'Red Cross'),
-    ]
-    kind = models.CharField(max_length=50, choices=choices)    
-    def __str__(self):
-        return self.address
 
 class area(LatLng):
     choices = [
@@ -26,6 +17,7 @@ class area(LatLng):
     radius = models.IntegerField(choices=choices)
     def __str__(self):
         return self.address
+
 
 class position(LatLng):
     choices = [
@@ -40,6 +32,7 @@ class position(LatLng):
     description = models.TextField(max_length=100)
     contact = models.CharField(max_length=12)
 
+
 class damage(LatLng):
     choices = [
         ('light', 'Light Damage'),
@@ -49,3 +42,23 @@ class damage(LatLng):
     description = models.TextField(max_length=100)
     contact = models.CharField(max_length=12)
     level = models.CharField(max_length=50, choices=choices, verbose_name='Damage\'s level')
+
+
+class need(models.Model):
+    choices = [
+        ('financial support', 'Financial support'),
+        ('volunteers', 'Need volunteers'),
+        ('specialists', 'Need specialists'),
+        ('food', 'Need food'),
+        ('other', 'Other')
+    ]
+    kind = models.CharField(max_length=50, choices=choices)
+    description = models.CharField(max_length=100, verbose_name="Short description")
+    time = models.DateTimeField(auto_now_add=True)
+    inNeed = models.CharField(max_length=10)
+
+    def save(self, *args, **kwargs):
+        longId = uuid.uuid4
+        shortId = str(longId)[0:5]
+        self.shortId = shortId
+        super(need, self).save(*args, **kwargs)

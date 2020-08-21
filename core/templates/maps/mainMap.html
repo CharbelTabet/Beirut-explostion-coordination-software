@@ -1,122 +1,78 @@
 {% extends '../layouts/main.html' %}
 {% load static %}
 {% block content %}
+<style>
+  #legend {
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding: 10px;
+        margin: 10px;
+        border: 3px solid #000;
+      }
+</style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsdSifw0uEsgwuqe5cWh2FZZRhoYUg-6c&callback=initMap&libraries=&v=weekly"
   defer
 ></script>
+<script src="{% static './js/map.js' %}"></script>
 <script>
   "use strict";
 
-  function initMap() {
-    // Center location
-    let centerLocation = {
-        lat: 33.894317,
-        lng: 35.5002621
-    }
+  function initMap() { 
     // Map object
-    let map = new google.maps.Map(document.getElementById("map"), {
-      center: centerLocation,
-      zoom: 14
-    });
+    let map = createMap();
+  
     // Fetching areas and adding shapes
     fetch('/areas')
       .then(response => response.json())
       .then(json => {
-        let i, marker;
+        let i;
         for (i = 0; i < json.length; i++) {
-          var cityCircle = new google.maps.Circle({
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.35,
-            map,
-            center: new google.maps.LatLng(json[i].lat, json[i].lng),
-            radius: json[i].radius
-          });
+          addArea(json[i].lat, json[i].lng, json[i].radius);
         }
       })
-    // Marker's api setup
-    function markerIcon(type='material', icon='fiber_manual_record', color='red', size='large') {
-      return `https://api.geoapify.com/v1/icon/?icon=${icon}&color=${color}&size=${size}&type=${type}&apiKey=f44d995e7b094f6c9c7583d0e57fd515`;
-    };
-    // Marker's icons switch function
-    function setIcon(kind) {
-      switch (kind) {
-        case 'food':
-          return markerIcon('awesome','utensils', 'green');
-          break;
-      
-        case 'construction':
-          return markerIcon('awesome', 'hard-hat', 'yellow');
-          break;
-        
-        case 'ngo':
-          return markerIcon('awesome', 'hands-helping', 'purple');
-          break;
 
-        case 'danger':
-          return markerIcon('awesome', 'exclamation-triangle', 'yellow');
-          break;
-
-        case 'red cross':
-          return markerIcon('awesome', 'ambulance', 'red');
-          break;
-      }
-    }
-    // Info window function
-    function addInfoWindow(content='Hello world', marker) {
-      let infoWindow = new google.maps.InfoWindow({
-        content: content
-      });
-      marker.addListener('click', () => {
-        console.log('event started');
-        infoWindow.open(map, marker);
-      });
-    }
     // Adding position
     fetch('/positions')
       .then(response => response.json())
       .then(json => {
-        let i, marker;
+        var markers = [];
+        let i;
         for (i = 0; i < json.length; i++) {
-          // Add marker to map
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(json[i].lat, json[i].lng),
-            map: map,
-            icon: {url: setIcon(json[i].kind)},
-            animation: google.maps.Animation.DROP,
-            url: `https://www.google.com/maps/search/?api=1&query=${json[i].lat},${json[i].lng}`
-          });
-          // Add info window to marker
+          let marker = addMarker(json[i].lat, json[i].lng, map, json[i].kind);
           let content = `<h4>${json[i].name}</h4><div>${json[i].description}</div><p><center>Contact: ${json[i].contact}</center></p><p><center><a href="${marker.url}" target="_blank">Google maps</a> - <a href="/position/${json[i].id}" target="_blank">View details</a></center></p>`;
           addInfoWindow(content, marker);
         }
+        clusterMarkers(map, markers);
       })
+
     // Adding damged places
     fetch('/damages')
       .then(response => response.json())
       .then(json => {
-        let i, marker;
+        var markers = [];
+        let i;
         for (i = 0; i < json.length; i++) {
-          // Add marker to map
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(json[i].lat, json[i].lng),
-            map: map,
-            icon: {url: "https://api.geoapify.com/v1/icon/?type=awesome&color=red&icon=house-damage&iconSize=large&noWhiteCircle&apiKey=f44d995e7b094f6c9c7583d0e57fd515"},
-            animation: google.maps.Animation.DROP,
-            url: `https://www.google.com/maps/search/?api=1&query=${json[i].lat},${json[i].lng}`
-          });
-          // Add info window to marker
+          let marker = addMarker(json[i].lat, json[i].lng, map, 'damage');
           let content = `<h4>Damaged house</h4><div>${json[i].description}</div><p><center>Contact: ${json[i].contact}</center></p><p><center><a href="${marker.url}" target="_blank">Google maps</a> - <a href="/damages/${json[i].id}" target="_blank">View details</a></center></p>`;
+          markers.push(marker);
           addInfoWindow(content, marker);
         }
+        clusterMarkers(map, markers);
       })
+
+      var legend = document.getElementById('legend');
+      var div = document.createElement('div');
+      div.innerHTML = 'Legend to be filled';
+      legend.appendChild(div);
+      map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
   };
+</script>
+<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
 </script>
 <div style="height: 83.8vh; margin: auto -24px;">
   <div id="map" style="height: 100%;"></div>
+  <div id="legend"><h3>Legend</h3></div>
 </div>
 {% endblock %}

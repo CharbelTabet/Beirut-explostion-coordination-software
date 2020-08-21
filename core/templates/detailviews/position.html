@@ -10,10 +10,13 @@
 <div>
     <br>
     <h4>Needs</h4>
-    List of needs:
-    <p>
-        
-    </p>
+    {% include '../listviews/needsList.html' %}
+    <h5>Add needs</h5>
+    <form method="POST">
+        <div class="row">
+            {% include '../forms/needForm.html' %}
+        </div>
+    </form>
 </div>
 <div>
     <br>
@@ -21,5 +24,9 @@
     <p>
         {{ object.contact }}
     </p>
+</div>
+<div>
+    <hr>
+    <a href="{% url 'updatePosition' object.pk %}">Update</a> - <a href="{% url 'deletePosition' object.pk %}" class="text-danger">Delete</a>
 </div>
 {% endblock %}

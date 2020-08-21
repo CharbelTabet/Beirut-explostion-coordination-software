@@ -1,94 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsdSifw0uEsgwuqe5cWh2FZZRhoYUg-6c&callback=initMap&libraries=&v=weekly"
-    defer
-    ></script>
-</head>
-<style type="text/css">
-    /* Always set the map height explicitly to define the size of the div
-     * element that contains the map. */
-    #map {
-      height: 100%;
-    }
-
-    /* Optional: Makes the sample page fill the window. */
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-</style>
-<body>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Marker Clustering</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #legend {
+        background: #fff;
+        padding: 10px;
+        margin: 10px;
+        border: 3px solid #000;
+      }
+      #legend h3 {
+        margin-top: 0;
+      }
+      #legend img {
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="legend"><h3>Legend</h3></div>
     <script>
-        "use strict";
-      
-        function initMap() {
-          // Center location
-          let centerLocation = {
-              lat: 33.894317,
-              lng: 35.5002621
-          }
-          // Map object
-          let map = new google.maps.Map(document.getElementById("map"), {
-            center: centerLocation,
-            zoom: 14.8
-          });
-          // Shapes
-          const cityCircle = new google.maps.Circle({
-              strokeColor: "#FF0000",
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: "#FF0000",
-              fillOpacity: 0.35,
-              map,
-              center: {
-                lat: 33.9001292,
-                lng: 35.5096025
-              },
-              radius: 1000
+      function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: {lat: 33.894317, lng: 35.5002621}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        fetch('/positions')
+        .then(response => response.json())
+        .then(json => {
+          var markers = json.map(function(location, i) {
+            return new google.maps.Marker({
+            position: {lat: parseFloat(json[i].lat), lng: parseFloat(json[i].lng)},
             });
-          // Marker parameters
-          const image = {
-            url:
-              "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-            size: new google.maps.Size(20, 32),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(0, 32)
-          };
-          const shape = {
-            coords: [1, 1, 1, 20, 18, 20, 18, 1],
-            type: "poly"
-          };
-          // Fetching locations
-          fetch('/locations')
-            .then(response => response.json())
-            .then(json => {
-              let i, marker;
-              for (i = 0; i < json.length; i++) {
-                marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(json[i].lat, json[i].lng),
-                  label: json[i].label,
-                  labelClass: "label",
-                  map: map,
-                  icon: image,
-                  shape: shape,
-                  animation: google.maps.Animation.DROP,
-                  url: `https://www.google.com/maps/search/?api=1&query=${json[i].lat},${json[i].lng}`
-                })
-                google.maps.event.addListener(marker, 'click', function() {
-                  window.location.href = this.url;
-                });
-              }
-            })
-          };
+          });
+
+          // Add a marker clusterer to manage the markers.
+          var markerCluster = new MarkerClusterer(map, markers,
+              {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+          })
+      
+          map.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
+      }
+    
     </script>
-    <div id="map"></div>    
-</body>
+    <!-- Replace following script src -->
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
+    </script>
+    <script defer
+    src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
+    </script>
+  </body>
 </html>

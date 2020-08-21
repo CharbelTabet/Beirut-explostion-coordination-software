@@ -1,0 +1,13 @@
+{% csrf_token %}
+    {% csrf_token %}
+    {% for field in needForm %}
+    <div class="col-lg-3 md-12">
+        {{ field.label }}:
+        <br>
+        {{ field }}
+    </div>
+{% endfor %}    
+<div class="col-lg-3 md-12">
+    <br>
+    <input type="submit" class="btn btn-primary mx-5">
+</div>

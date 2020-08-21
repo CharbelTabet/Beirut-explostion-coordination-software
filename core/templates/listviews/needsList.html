@@ -1,0 +1,9 @@
+<ul>
+    {% for need in needs %}
+        <li>
+            <span class="text-danger">Need of</span> <b>{{ need.kind }}</b>, on <i>{{ need.time }}</i>
+            <br>
+            {{ need.description }}
+        </li>
+    {% endfor %}
+</ul>
