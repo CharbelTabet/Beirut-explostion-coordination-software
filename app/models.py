@@ -56,6 +56,7 @@ class need(models.Model):
     description = models.CharField(max_length=100, verbose_name="Short description")
     time = models.DateTimeField(auto_now_add=True)
     inNeed = models.CharField(max_length=10)
+    status = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         longId = uuid.uuid4

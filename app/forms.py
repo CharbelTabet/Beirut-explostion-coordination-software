@@ -4,4 +4,4 @@ from . import models
 class NeedForm(ModelForm):
     class Meta:
         model = models.need
-        exclude = ['inNeed']
+        exclude = ['inNeed', 'status']
