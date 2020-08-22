@@ -30,6 +30,7 @@ class position(LatLng):
     name = models.CharField(max_length=30)
     kind = models.CharField(max_length=50, choices=choices)
     description = models.TextField(max_length=100)
+    time = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=12)
 
 
@@ -40,6 +41,7 @@ class damage(LatLng):
         ('heavy', 'Heavy Damage')
     ]
     description = models.TextField(max_length=100)
+    time = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=12)
     level = models.CharField(max_length=50, choices=choices, verbose_name='Damage\'s level')
 
