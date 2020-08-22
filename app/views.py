@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django import forms
 from . import models
 from . import forms
+from . import queries
 
 # Dashboard sections
 class Map(TemplateView):
@@ -14,9 +15,6 @@ class Map(TemplateView):
 
 class MapsList(TemplateView):
     template_name ='maps/mapsList.html' 
-
-class Dashboard(TemplateView):
-    template_name = 'dashboards/mainDashboard.html'
 
 class DashboardsList(TemplateView):
     template_name = 'dashboards/dashboardsList.html'
@@ -27,6 +25,16 @@ class ChartsList(TemplateView):
 class TablesList(TemplateView):
     template_name = 'analytics/tables.html'
 
+# Sections
+class Dashboard(TemplateView):
+    template_name = 'dashboards/mainDashboard.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        stats = queries.queries()
+        data['cardsData'] = stats.cards
+        data['tablesData'] = stats.tables
+        return data
 
 # Forms
 class CreatePosition(CreateView):
