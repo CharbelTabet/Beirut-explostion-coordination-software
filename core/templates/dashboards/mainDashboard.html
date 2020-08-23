@@ -77,6 +77,8 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Time</th>
                             <th>Position's name</th>
                             <th>Address</th>
                             <th>Type</th>
@@ -85,6 +87,8 @@
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>#</th>
+                            <th>Time</th>
                             <th>Position's name</th>
                             <th>Address</th>
                             <th>Type</th>
@@ -94,7 +98,9 @@
                     <tbody>
                         {% for object in tablesData.positions %}
                             <tr>
-                                <td>{{ object.name }}</td>
+                                <td><a href="{% url 'position' object.id %}">{{ object.id }}</a></td>
+                                <td>{{ object.time }}</td>
+                                <td><a href="{% url 'position' object.id %}">{{ object.name }}</a></td>
                                 <td>{{ object.address }}</td>
                                 <td>{{ object.kind }}</td>
                                 <td>{{ object.contact }}</td>
@@ -115,6 +121,8 @@
                 <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Time</th>
                             <th>Damage's level</th>
                             <th>Address</th>
                             <th>Contact</th>
@@ -122,6 +130,8 @@
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>#</th>
+                            <th>Time</th>
                             <th>Damage's level</th>
                             <th>Address</th>
                             <th>Contact</th>
@@ -130,9 +140,56 @@
                     <tbody>
                         {% for object in tablesData.damages %}
                             <tr>
+                                <td><a href="{% url 'damage' object.id %}">DMG{{ object.id }}</a></td>
+                                <td>{{ object.time }}</td>
                                 <td>{{ object.level }}</td>
                                 <td>{{ object.address }}</td>
                                 <td>{{ object.contact }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Needs Table
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Position in need</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Time</th>
+                            <th>Stauts</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Position in need</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Time</th>
+                            <th>Stauts</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for object in tablesData.needs %}
+                            <tr>
+                                <td><a href="{% url 'position' object.id %}">Position #{{ object.inNeed }}</a></td>
+                                <td>{{ object.kind }}</td>
+                                <td>{{ object.description }}</td>
+                                <td>{{ object.time }}</td>
+                                {% if object.status %}
+                                    <td>Not fulfilled</td>
+                                {% else %}
+                                    <td>Fulfilled</td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </tbody>

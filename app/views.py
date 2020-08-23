@@ -103,6 +103,13 @@ class UpdateDamage(UpdateView):
     def get_success_url(self):
         return '/damages/{}'.format(self.object.pk)
 
+class UpdateNeedStatus(UpdateView):
+    model = models.need
+    fields = ['status']
+    template_name = 'forms/updateneedstatus.html'
+
+    def get_success_url(self):
+        return '/position/{}'.format(self.object.inNeed)
 
 # Delete view
 class DeletePosition(DeleteView):
@@ -117,6 +124,11 @@ class DeleteDamage(DeleteView):
     success_url = '/'
     template_name = 'forms/deleteDamage.html'
 
+class DeleteNeed(DeleteView):
+    model = models.need
+    fields = '__all__'
+    success_url = '/'
+    template_name = 'forms/deleteNeed.html'
 
 # Data json response
 class Areas(View):

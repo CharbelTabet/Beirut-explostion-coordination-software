@@ -54,11 +54,15 @@ class need(models.Model):
         ('food', 'Need food'),
         ('other', 'Other')
     ]
+    statusChoices = [
+        ('Still in need', 'Still in need'),
+        ('Need fulfilled', 'Need fulfilled')
+    ]
     kind = models.CharField(max_length=50, choices=choices)
     description = models.CharField(max_length=100, verbose_name="Short description")
     time = models.DateTimeField(auto_now_add=True)
     inNeed = models.CharField(max_length=10)
-    status = models.BooleanField(default=False)
+    status = models.CharField(max_length=50, default='Still in need', choices = statusChoices)
 
     def save(self, *args, **kwargs):
         longId = uuid.uuid4

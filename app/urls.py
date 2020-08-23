@@ -15,8 +15,8 @@ urlpatterns = [
     path('adddamage', views.CreateDamage.as_view(), name='addarea'),
 
     # Detail views
-    path('position/<slug:pk>/', views.PositionDetail.as_view(), name='postion detail'),
-    path('damages/<slug:pk>/', views.DamageDetail.as_view(), name='damage detail'),
+    path('position/<slug:pk>/', views.PositionDetail.as_view(), name='position'),
+    path('damages/<slug:pk>/', views.DamageDetail.as_view(), name='damage'),
 
     # List views
     # path('mypositions', views.myPositions.as_view(), name='myPositions'),
@@ -25,10 +25,12 @@ urlpatterns = [
     # Update views
     path('updateposition/<slug:pk>/', views.UpdatePosition.as_view(), name='updatePosition'),
     path('updatedamage/<slug:pk>/', views.UpdateDamage.as_view(), name='updateDamage'),
+    path('updateneedstatus/<slug:pk>/', views.UpdateNeedStatus.as_view(), name='updateNeedStatus'),
 
     # Delete views
     path('deleteposition/<slug:pk>/', views.DeletePosition.as_view(), name='deletePosition'),
     path('deletedamage/<slug:pk>/', views.DeleteDamage.as_view(), name='deleteDamage'),
+    path('deleteneed/<slug:pk>/', views.DeleteNeed.as_view(), name='deleteNeed'),
     
     # Data
     path('areas', views.Areas.as_view()),

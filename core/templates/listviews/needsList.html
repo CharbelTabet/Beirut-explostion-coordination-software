@@ -3,7 +3,9 @@
         <li>
             <span class="text-danger">Need of</span> <b>{{ need.kind }}</b>, on <i>{{ need.time }}</i>
             <br>
-            {{ need.description }}
+            Description: {{ need.description }} - <a href = "{% url 'updateNeedStatus' need.pk %}" class="text-success">Need fulfilled</a> / <a href = "{% url 'deleteNeed' need.pk %}" class="text-danger">Delete need</a>
+            <br>
+            Status: {{ need.status }}
         </li>
     {% endfor %}
 </ul>
