@@ -21,3 +21,5 @@ urlpatterns = [
     path('', include('app.urls')),
     path('', include('RBAC.urls')),
 ]
+
+handler404 = 'app.views.handler404'

@@ -9,6 +9,12 @@ from . import models
 from . import forms
 from . import queries
 
+# Errors
+def handler404(request, exception, template_name="errors/404.html"):
+    response = render_to_response(template_name)
+    response.status_code = 404
+    return response
+
 # Dashboard sections
 class Map(TemplateView):
     template_name = 'maps/mainMap.html'
