@@ -6,40 +6,11 @@ function createMap() {
     return map
 }
 
-function markerIcon(type='material', icon='fiber_manual_record', color='red', size='large') {
-    return `https://api.geoapify.com/v1/icon/?icon=${icon}&color=${color}&size=${size}&type=${type}&apiKey=f44d995e7b094f6c9c7583d0e57fd515`;
-}
-
-function setIcon(kind) {
-    switch (kind) {
-        case 'food':
-            return markerIcon('awesome','utensils', 'green');
-
-        case 'construction':
-            return markerIcon('awesome', 'hard-hat', 'yellow');
-
-        case 'ngo':
-            return markerIcon('awesome', 'hands-helping', 'purple');
-
-        case 'danger':
-            return markerIcon('awesome', 'exclamation-triangle', 'yellow');
-
-        case 'red cross':
-            return markerIcon('awesome', 'ambulance', 'red');
-
-        case 'damage':
-            return 'https://api.geoapify.com/v1/icon/?type=awesome&color=red&icon=house-damage&iconSize=large&noWhiteCircle&apiKey=f44d995e7b094f6c9c7583d0e57fd515';
-
-        default:
-            return ''
-    }
-}
-
 function addMarker(lat, lng, map, icon) {
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(lat, lng),
         map: map,
-        icon: {url: setIcon(icon)},
+        icon: icons[icon],
         animation: google.maps.Animation.DROP,
         url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`
     });
