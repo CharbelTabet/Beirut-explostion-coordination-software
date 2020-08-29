@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -25,22 +28,14 @@ class MapsList(TemplateView):
 class DashboardsList(TemplateView):
     template_name = 'dashboards/dashboardsList.html'
 
-class ChartsList(TemplateView):
-    template_name = 'analytics/charts.html'
-
-class TablesList(TemplateView):
-    template_name = 'analytics/tables.html'
-
 # Sections
-class Dashboard(TemplateView):
-    template_name = 'dashboards/mainDashboard.html'
+class mainDashboard(View):
+    template_name = 'dashboards/dashboard.html'
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+    def get(self, request):
         stats = queries.queries()
-        data['cardsData'] = stats.cards
-        data['tablesData'] = stats.tables
-        return data
+        context = stats.allData()
+        return render(request, self.template_name, context)
 
 # Forms
 class CreatePosition(CreateView):
@@ -49,12 +44,17 @@ class CreatePosition(CreateView):
     success_url ='/'
     template_name = 'forms/createPosition.html'
 
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        return HttpResponseRedirect(self.success_url)
+
 class CreateDamage(CreateView):
     model = models.damage
     fields = '__all__'
     success_url ='/'
     template_name = 'forms/createDamage.html'
-
 
 # Detail views
 class PositionDetail(DetailView):
@@ -91,7 +91,6 @@ class DamageDetail(DetailView):
         obj.save()
         return HttpResponseRedirect(self.request.path_info)
 
-
 # Update views
 class UpdatePosition(UpdateView):
     model = models.position
@@ -118,6 +117,7 @@ class UpdateNeedStatus(UpdateView):
         return '/position/{}'.format(self.object.inNeed)
 
 # Delete view
+@method_decorator(login_required(login_url='/login'), name='dispatch')
 class DeletePosition(DeleteView):
     model = models.position
     fields = '__all__'
@@ -164,6 +164,16 @@ class Damages(View):
     def get(self, request):
         return JsonResponse(self.objects(request), safe=False)
 
+# User specific views
+class userDashboard(View):
+    template_name = 'dashboards/dashboard.html'
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        stats = queries.queries()
+        context = stats.userData(user.id)
+        context["title"] = "{}'s dashboard".format(user.username)
+        return render(request, self.template_name, context)
 
 # Development views
 class FullScreenMap(TemplateView):

@@ -2,7 +2,7 @@
 {% block content %}
 <div>
     <!-- Header -->
-    <h1 class="mt-4">Main Dashboard</h1>
+    <h1 class="mt-4">{% if title %}{{ title }}{% else %}Main Dashboard{% endif %}</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Dashboard</li>
     </ol>
@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Number of positions: {{ cardsData.positionsCount }}</div>
+                <div class="card-body">Number of positions: {{ cards.positionsCount }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -19,7 +19,7 @@
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Positions in need: {{ cardsData.positionsInNeed }}</div>
+                <div class="card-body">Positions in need: {{ cards.positionsInNeed }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-success text-white mb-4">
-                <div class="card-body">Served positions: {{ cardsData.servedPositions }}</div>
+                <div class="card-body">Served positions: {{ cards.servedPositions }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -37,7 +37,7 @@
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-danger text-white mb-4">
-                <div class="card-body">Damaged houses in need: {{ cardsData.damagesCount }}</div>
+                <div class="card-body">Damaged houses in need: {{ cards.damagesCount }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -96,7 +96,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for object in tablesData.positions %}
+                        {% for object in tables.positions %}
                             <tr>
                                 <td><a href="{% url 'position' object.id %}">{{ object.id }}</a></td>
                                 <td>{{ object.time }}</td>
@@ -138,7 +138,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for object in tablesData.damages %}
+                        {% for object in tables.damages %}
                             <tr>
                                 <td><a href="{% url 'damage' object.id %}">DMG{{ object.id }}</a></td>
                                 <td>{{ object.time }}</td>
@@ -179,7 +179,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for object in tablesData.needs %}
+                        {% for object in tables.needs %}
                             <tr>
                                 <td><a href="{% url 'position' object.id %}">Position #{{ object.inNeed }}</a></td>
                                 <td>{{ object.kind }}</td>

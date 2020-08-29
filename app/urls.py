@@ -5,10 +5,8 @@ urlpatterns = [
     # Dashboard sections
     path('', views.Map.as_view(), name='map'),
     path('specificmaps', views.MapsList.as_view(), name='mapslist'),
-    path('dashboard', views.Dashboard.as_view(), name='dashboard'),
+    path('dashboard', views.mainDashboard.as_view(), name='dashboard'),
     path('specificdashboards', views.DashboardsList.as_view(), name='dashboardslist'),
-    path('charts', views.ChartsList.as_view(), name='chartslist'),
-    path('tables', views.TablesList.as_view(), name='tableslist'),
 
     # Forms
     path('addpostion', views.CreatePosition.as_view(), name='addpin'),
@@ -36,7 +34,10 @@ urlpatterns = [
     path('areas', views.Areas.as_view()),
     path('positions', views.Positions.as_view()),
     path('damages', views.Damages.as_view()),
+
+    # User specific views
+    path('<str:username>/dashboard/', views.userDashboard.as_view(), name='userDashboard'),
     
     # Development
-    path('map', views.FullScreenMap.as_view()),
+    path('map', views.FullScreenMap.as_view())
 ]

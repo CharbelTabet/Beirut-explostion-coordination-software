@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.timezone import now
+from django.contrib.auth.models import User
 
 
 class LatLng(models.Model):
@@ -18,7 +19,6 @@ class area(LatLng):
     def __str__(self):
         return self.address
 
-
 class position(LatLng):
     choices = [
         ('food', 'Food'),
@@ -32,7 +32,7 @@ class position(LatLng):
     description = models.TextField(max_length=100)
     time = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=12)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
 
 class damage(LatLng):
     choices = [
@@ -44,7 +44,7 @@ class damage(LatLng):
     time = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=12)
     level = models.CharField(max_length=50, choices=choices, verbose_name='Damage\'s level')
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
 
 class need(models.Model):
     choices = [
@@ -63,6 +63,7 @@ class need(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     inNeed = models.CharField(max_length=10)
     status = models.CharField(max_length=50, default='Still in need', choices = statusChoices)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
 
     def save(self, *args, **kwargs):
         longId = uuid.uuid4
