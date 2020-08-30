@@ -20,15 +20,18 @@ class queries():
                 'needs': self.needs.all()
             }
         }
+
+    def userStats(self, userId):
+        return {
+            'positionsCount': self.positions.filter(user=userId).count(),
+            'positionsInNeed': self.needs.filter(status=True).filter(user=userId).count(),
+            'servedPositions': 5,
+            'damagesCount': self.damages.filter(user=userId).count(),
+        }
     
     def userData(self, userId):
         return {
-            "cards": {
-                'positionsCount': self.positions.filter(user=userId).count(),
-                'positionsInNeed': self.needs.filter(status=True).filter(user=userId).count(),
-                'servedPositions': 5,
-                'damagesCount': self.damages.filter(user=userId).count(),
-            },
+            "cards": self.userStats(userId),
             "tables": {
                 'positions': self.positions.filter(user=userId),
                 'damages': self.damages.filter(user=userId),

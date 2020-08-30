@@ -25,8 +25,19 @@ class Map(TemplateView):
 class MapsList(TemplateView):
     template_name ='maps/mapsList.html' 
 
-class DashboardsList(TemplateView):
+class DashboardsList(View):
     template_name = 'dashboards/dashboardsList.html'
+
+    def get(self, request):
+        stats = queries.queries()
+        usersStats = {}
+        users = User.objects.all()
+        for user in users:
+            usersStats[user.username] = stats.userStats(user.id)
+        context = {}
+        context["usersStats"] = usersStats
+        context["users"] = users
+        return render(request, self.template_name, context)
 
 # Sections
 class mainDashboard(View):

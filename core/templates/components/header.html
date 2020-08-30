@@ -21,8 +21,6 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     {% else %}
-                    <p class="dropdown-item">Not logged in</p>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'login' %}">Login</a>
                     <a class="dropdown-item" href="{% url 'register' %}">Register</a>
                 {% endif %}
