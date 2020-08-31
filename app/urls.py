@@ -16,10 +16,6 @@ urlpatterns = [
     path('position/<slug:pk>/', views.PositionDetail.as_view(), name='position'),
     path('damages/<slug:pk>/', views.DamageDetail.as_view(), name='damage'),
 
-    # List views
-    # path('mypositions', views.myPositions.as_view(), name='myPositions'),
-    # path('mydamages', views.myDamages.as_view(), name='myDamages'),
-
     # Update views
     path('updateposition/<slug:pk>/', views.UpdatePosition.as_view(), name='updatePosition'),
     path('updatedamage/<slug:pk>/', views.UpdateDamage.as_view(), name='updateDamage'),

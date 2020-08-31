@@ -2,11 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
+from core.decorators import user_owns_position, user_owns_damage
 from django import forms
 from . import models
 from . import forms
@@ -103,6 +104,7 @@ class DamageDetail(DetailView):
         return HttpResponseRedirect(self.request.path_info)
 
 # Update views
+@method_decorator(user_owns_position, name="dispatch")
 class UpdatePosition(UpdateView):
     model = models.position
     fields = '__all__'
@@ -111,6 +113,7 @@ class UpdatePosition(UpdateView):
     def get_success_url(self):
         return '/position/{}'.format(self.object.pk)
 
+@method_decorator(user_owns_damage, name="dispatch")
 class UpdateDamage(UpdateView):
     model = models.damage
     fields = '__all__'
@@ -128,13 +131,14 @@ class UpdateNeedStatus(UpdateView):
         return '/position/{}'.format(self.object.inNeed)
 
 # Delete view
-@method_decorator(login_required(login_url='/login'), name='dispatch')
+@method_decorator(user_owns_position, name="dispatch")
 class DeletePosition(DeleteView):
     model = models.position
     fields = '__all__'
     success_url = '/'
     template_name = 'forms/deletePosition.html'
 
+@method_decorator(user_owns_damage, name="dispatch")
 class DeleteDamage(DeleteView):
     model = models.damage
     fields = '__all__'
