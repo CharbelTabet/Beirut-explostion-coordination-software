@@ -49,15 +49,21 @@ function addArea(lat, lng, radius) {
 
 function addLegend(id) {
     var legend = document.getElementById(id);
-    var ul = document.createElement('div');
-    ul.style = "list-style: none";
+    var table = document.createElement(table);
     for (iconName in icons) {
-        var li = document.createElement('li');
+        // Table elements
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        // Icon
         var icon = document.createElement('img');
         icon.src = icons[iconName];
-        li.appendChild(icon);
-        li.innerHTML += ' ' + iconName + '<br>';
-        ul.appendChild(li);
+        // Fill td
+        td.appendChild(icon);
+        td.innerHTML += ' ' + iconName;
+        // Fill tr
+        tr.appendChild(td);
+        // Fill table
+        table.appendChild(tr);
     }
-    legend.appendChild(ul);
+    legend.appendChild(table);
 }
