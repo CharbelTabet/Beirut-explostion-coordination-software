@@ -1,7 +1,9 @@
 function createMap() {
     let map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 33.894317, lng: 35.5002621},
-        zoom: 14
+        zoom: 14,
+        streetViewControl: false,
+        mapTypeControl: false,
     });
     return map
 }
