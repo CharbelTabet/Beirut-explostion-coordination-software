@@ -19,12 +19,31 @@ def handler404(request, exception, template_name="errors/404.html"):
     response.status_code = 404
     return response
 
-# Dashboard sections
+# Map views
 class Map(TemplateView):
     template_name = 'maps/mainMap.html'
 
 class MapsList(TemplateView):
     template_name ='maps/mapsList.html' 
+
+# Dashboard views
+class mainDashboard(View):
+    template_name = 'dashboards/dashboard.html'
+
+    def get(self, request):
+        stats = queries.queries()
+        context = stats.allData()
+        return render(request, self.template_name, context)
+
+class userDashboard(View):
+    template_name = 'dashboards/dashboard.html'
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        stats = queries.queries()
+        context = stats.userData(user.id)
+        context["title"] = "{}'s dashboard".format(user.username)
+        return render(request, self.template_name, context)
 
 class DashboardsList(View):
     template_name = 'dashboards/dashboardsList.html'
@@ -40,16 +59,7 @@ class DashboardsList(View):
         context["users"] = users
         return render(request, self.template_name, context)
 
-# Sections
-class mainDashboard(View):
-    template_name = 'dashboards/dashboard.html'
-
-    def get(self, request):
-        stats = queries.queries()
-        context = stats.allData()
-        return render(request, self.template_name, context)
-
-# Forms
+# Create views
 @method_decorator(login_required(login_url="/login"), name="dispatch")
 class CreatePosition(CreateView):
     model = models.position
@@ -70,7 +80,7 @@ class CreateDamage(CreateView):
     success_url ='/'
     template_name = 'forms/createDamage.html'
 
-# Detail views
+# Read views
 class PositionDetail(DetailView):
     model = models.position
     template_name = 'detailviews/position.html'
@@ -180,18 +190,3 @@ class Damages(View):
 
     def get(self, request):
         return JsonResponse(self.objects(request), safe=False)
-
-# User specific views
-class userDashboard(View):
-    template_name = 'dashboards/dashboard.html'
-
-    def get(self, request, username):
-        user = get_object_or_404(User, username=username)
-        stats = queries.queries()
-        context = stats.userData(user.id)
-        context["title"] = "{}'s dashboard".format(user.username)
-        return render(request, self.template_name, context)
-
-# Development views
-class FullScreenMap(TemplateView):
-    template_name = 'maps/fullscreenMap.html'
