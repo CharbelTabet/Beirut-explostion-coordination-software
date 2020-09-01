@@ -63,17 +63,15 @@
         clusterMarkers(map, markers);
       })
 
-      var legend = document.getElementById('legend');
-      var div = document.createElement('div');
-      div.innerHTML = 'Legend to be filled';
-      legend.appendChild(div);
-      map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    // Adding legend
+    addLegend('legend');
   };
 </script>
 <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
 </script>
 <div style="height: 83.8vh; margin: auto -24px;">
   <div id="map" style="height: 100%;"></div>
-  <div id="legend"><h3>Legend</h3></div>
 </div>
+<div id="legend"><h3>Legend</h3></div>
+
 {% endblock %}

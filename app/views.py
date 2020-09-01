@@ -50,6 +50,7 @@ class mainDashboard(View):
         return render(request, self.template_name, context)
 
 # Forms
+@method_decorator(login_required(login_url="/login"), name="dispatch")
 class CreatePosition(CreateView):
     model = models.position
     fields = '__all__'
@@ -62,6 +63,7 @@ class CreatePosition(CreateView):
         obj.save()
         return HttpResponseRedirect(self.success_url)
 
+@method_decorator(login_required(login_url="/login"), name="dispatch")
 class CreateDamage(CreateView):
     model = models.damage
     fields = '__all__'

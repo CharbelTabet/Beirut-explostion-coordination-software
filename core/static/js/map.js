@@ -46,3 +46,18 @@ function addArea(lat, lng, radius) {
         radius: radius
     });
 }
+
+function addLegend(id) {
+    var legend = document.getElementById(id);
+    var ul = document.createElement('div');
+    ul.style = "list-style: none";
+    for (iconName in icons) {
+        var li = document.createElement('li');
+        var icon = document.createElement('img');
+        icon.src = icons[iconName];
+        li.appendChild(icon);
+        li.innerHTML += ' ' + iconName + '<br>';
+        ul.appendChild(li);
+    }
+    legend.appendChild(ul);
+}
