@@ -21,7 +21,34 @@ function addMarker(lat, lng, map, icon) {
 
 function clusterMarkers(map, markers) {
     new MarkerClusterer(map, markers,
-        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        {styles: [
+            {
+                height: 38,
+                url: icons["m1"],
+                width: 38,
+            },
+            {
+                height: 38,
+                url: icons["m2"],
+                width: 38,
+            },
+            {
+                height: 38,
+                url: icons["m3"],
+                width: 38,
+            },
+            {
+                height: 38,
+                url: icons["m4"],
+                width: 38,
+            },
+            {
+                height: 38,
+                url: icons["m5"],
+                width: 38,
+            }
+        ]}
+    );
 }
 
 function addInfoWindow(htmlString='Hello world', marker) {

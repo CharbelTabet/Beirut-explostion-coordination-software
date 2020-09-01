@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
-from core.decorators import user_owns_position, user_owns_damage
+from core.decorators import user_owns_position, user_owns_damage, user_owns_need
 from django import forms
 from . import models
 from . import forms
@@ -81,6 +81,7 @@ class CreateDamage(CreateView):
     template_name = 'forms/createDamage.html'
 
 # Read views
+@method_decorator(login_required(login_url="/login"), name="post")
 class PositionDetail(DetailView):
     model = models.position
     template_name = 'detailviews/position.html'
@@ -95,9 +96,11 @@ class PositionDetail(DetailView):
         form = forms.NeedForm(request.POST)
         obj = form.save(commit=False)
         obj.inNeed = pk
+        obj.user = request.user
         obj.save()
         return HttpResponseRedirect(self.request.path_info)
 
+@method_decorator(login_required(login_url="/login"), name="post")
 class DamageDetail(DetailView):
     model = models.damage
     template_name = 'detailviews/damage.html'
@@ -112,6 +115,7 @@ class DamageDetail(DetailView):
         form = forms.NeedForm(request.POST)
         obj = form.save(commit=False)
         obj.inNeed = pk
+        obj.user = request.user
         obj.save()
         return HttpResponseRedirect(self.request.path_info)
 
@@ -134,6 +138,7 @@ class UpdateDamage(UpdateView):
     def get_success_url(self):
         return '/damages/{}'.format(self.object.pk)
 
+@method_decorator(user_owns_need, name="dispatch")
 class UpdateNeedStatus(UpdateView):
     model = models.need
     fields = ['status']
@@ -157,6 +162,7 @@ class DeleteDamage(DeleteView):
     success_url = '/'
     template_name = 'forms/deleteDamage.html'
 
+@method_decorator(user_owns_need, name="dispatch")
 class DeleteNeed(DeleteView):
     model = models.need
     fields = '__all__'

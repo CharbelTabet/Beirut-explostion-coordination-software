@@ -19,3 +19,12 @@ def user_owns_damage(function):
         else:
             raise PermissionDenied
     return wrap
+
+def user_owns_need(function):
+    def wrap(request, *args, **kwargs):
+        need = models.need.objects.get(pk=kwargs['pk'])
+        if need.user == request.user:
+            return function(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+    return wrap
