@@ -12,7 +12,7 @@
             <div class="card bg-primary text-white mb-4">
                 <div class="card-body">Number of positions: {{ cards.positionsCount }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <a class="small text-white stretched-link" href="#Positions">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
             <div class="card bg-warning text-white mb-4">
                 <div class="card-body">Positions in need: {{ cards.positionsInNeed }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <a class="small text-white stretched-link" href="#Positions">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">Served positions: {{ cards.servedPositions }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <a class="small text-white stretched-link" href="#Positions">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div class="card bg-danger text-white mb-4">
                 <div class="card-body">Damaged houses in need: {{ cards.damagesCount }}</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <a class="small text-white stretched-link" href="#Damages">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
         </div>
     </div> -->
     <!-- Tables -->
-    <div class="card mb-4">
+    <div class="card mb-4" id="Positions">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
             Volunteering positions Table
@@ -111,7 +111,7 @@
             </div>
         </div>
     </div>
-    <div class="card mb-4">
+    <div class="card mb-4" id="Damages">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
             Damaged places Table
