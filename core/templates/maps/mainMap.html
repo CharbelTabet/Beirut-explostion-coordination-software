@@ -41,7 +41,7 @@
         let i;
         for (i = 0; i < json.length; i++) {
           let marker = addMarker(json[i].lat, json[i].lng, map, json[i].kind);
-          let content = `<h4>${json[i].name}</h4><div class="text-success">${json[i].kind} position</div><p>${json[i].description}</p><p>Phone: ${json[i].contact}<br>Uploaded by: ${json[i].user}</p><a href="${marker.url}" target="_blank">Google maps</a> - <a href="/position/${json[i].id}" target="_blank">View details</a></center></p>`;
+          let content = `<h4>${json[i].name}</h4><div class="text-success">${json[i].kind} position</div><p>${json[i].description}</p><p>Phone: ${json[i].contact}<br>Uploaded by: ${json[i].user_id}</p><a href="${marker.url}" target="_blank">Google maps</a> - <a href="/position/${json[i].id}" target="_blank">View details</a></center></p>`;
           addInfoWindow(content, marker);
         }
         clusterMarkers(map, markers);
@@ -55,7 +55,7 @@
         let i;
         for (i = 0; i < json.length; i++) {
           let marker = addMarker(json[i].lat, json[i].lng, map, 'damage');
-          let content = `<h4 class="text-danger">${json[i].level} damaged place</h4><p>${json[i].description}</p><p>Phone: ${json[i].contact}<br>Uploaded by: ${json[i].user}</p><a href="${marker.url}" target="_blank">Google maps</a> - <a href="/damages/${json[i].id}" target="_blank">View details</a></center></p>`;
+          let content = `<h4 class="text-danger">${json[i].level} damaged place</h4><p>${json[i].description}</p><p>Phone: ${json[i].contact}<br>Uploaded by: ${json[i].user_id}</p><a href="${marker.url}" target="_blank">Google maps</a> - <a href="/damages/${json[i].id}" target="_blank">View details</a></center></p>`;
           markers.push(marker);
           addInfoWindow(content, marker);
         }

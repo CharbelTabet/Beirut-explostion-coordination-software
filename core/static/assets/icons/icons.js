@@ -1,15 +1,15 @@
 var icons = {
-    "Clusters": {
-        "Over 10 damaged homes" :"https://iili.io/dvmXLb.png",
-        "Over 20 damaged homes" :"https://iili.io/dvmWhu.png",
-        "Over 30 damaged homes" :"https://iili.io/dvmNrQ.png",
-        "Over 40 damaged homes": "https://iili.io/d8KJ6X.png",
-        "Over 50 damaged homes": "https://iili.io/d8K2Fn.png",
+    "Damages Clusters": {
+        "-10" :"https://iili.io/dvmXLb.png",
+        "10+" :"https://iili.io/dvmWhu.png",
+        "20+" :"https://iili.io/dvmNrQ.png",
+        "30+": "https://iili.io/d8KJ6X.png",
+        "40+": "https://iili.io/d8K2Fn.png",
     },
     "Damages": {
-        "slightly damaged home" :"https://iili.io/d8Fi6F.png",
-        "moderately damaged home" :"https://iili.io/d8FQaa.png",
-        "heavily damaged home" :"https://iili.io/d8FL3g.png",
+        "slight" :"https://iili.io/d8Fi6F.png",
+        "moderate" :"https://iili.io/d8FQaa.png",
+        "heavy" :"https://iili.io/d8FL3g.png",
     },
     "Traffic": {
         "closed road" :"https://iili.io/d8Ftyv.png",
@@ -48,7 +48,7 @@ function setIcons(kind) {
             return icons["Warnings"]["danger"]
         
         case 'damage':
-            return icons["Damages"]["heavily damaged home"]
+            return icons["Damages"]["heavy"]
     }
 
 }

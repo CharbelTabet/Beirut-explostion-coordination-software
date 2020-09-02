@@ -24,27 +24,27 @@ function clusterMarkers(map, markers) {
         {styles: [
             {
                 height: 38,
-                url: icons["Clusters"]["Over 10 damaged homes"],
+                url: icons["Damages Clusters"]["-10"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["Clusters"]["Over 20 damaged homes"],
+                url: icons["Damages Clusters"]["10+"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["Clusters"]["Over 30 damaged homes"],
+                url: icons["Damages Clusters"]["20+"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["Clusters"]["Over 40 damaged homes"],
+                url: icons["Damages Clusters"]["30+"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["Clusters"]["Over 50 damaged homes"],
+                url: icons["Damages Clusters"]["40+"],
                 width: 38,
             }
         ]}
@@ -87,8 +87,10 @@ function addLegend(id) {
         var col = document.createElement('div');
         var setTitle = document.createElement('h4');
         setTitle.innerHTML = iconsSet;
-        col.classList.add("col-sm-6");
-        col.classList.add("col-12");
+        col.classList.add("col-xl-3");
+        col.classList.add("col-lg-4");
+        col.classList.add("col-md-6");
+        col.classList.add("col-xs-12");
         col.appendChild(setTitle);
         
         // Filling html elements
