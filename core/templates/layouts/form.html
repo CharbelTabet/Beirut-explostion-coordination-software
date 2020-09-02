@@ -2,7 +2,9 @@
 {% block content %}
 <div class="mt-4">
     <div class="row">
-        <div class="col-lg-4 col-sm-6">
+        {% block help %}{% endblock %}
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div id="formSpace"></div>
             <h2>{% block formTitle %}{% endblock %}</h2>
             <form method="POST" action="">
                 {% csrf_token %}
@@ -17,9 +19,25 @@
                 <p>
                     <input type="submit" class="btn btn-primary">
                 </p>
+            </form>
         </div>
-        {% block help %}{% endblock %}
     </form>
     </div>
+    <script type="application/javascript">
+        setInterval(function () {
+            var formSpace = document.getElementById('formSpace');
+
+                if (window.innerWidth < 576 && formSpace.innerHTML == '') {
+                    let i;
+                    for (i=0; i<5; i++) {
+                        formSpace.innerHTML += '<br>'
+                    }
+                }
+                else if (window.innerWidth > 576) {
+                    formSpace.innerHTML = ''
+                }
+        }, 500)
+        
+    </script>
 </div>
 {% endblock %}

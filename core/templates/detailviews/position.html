@@ -11,12 +11,6 @@
     <br>
     <h4>Needs</h4>
     {% include '../listviews/needsList.html' %}
-    <h6>Add needs</h6>
-    <form method="POST">
-        <div class="row">
-            {% include '../forms/needForm.html' %}
-        </div>
-    </form>
 </div>
 <div>
     <br>
@@ -28,5 +22,12 @@
 <div>
     <hr>
     <a href="{% url 'updatePosition' object.pk %}">Update</a> - <a href="{% url 'deletePosition' object.pk %}" class="text-danger">Delete</a>
+    <hr>
+    <h6>Add needs</h6>
+    <form method="POST">
+        <div class="row">
+            {% include '../forms/needForm.html' %}
+        </div>
+    </form>
 </div>
 {% endblock %}
