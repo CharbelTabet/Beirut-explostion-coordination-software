@@ -8,11 +8,11 @@ function createMap() {
     return map
 }
 
-function addMarker(lat, lng, map, icon) {
+function addMarker(lat, lng, map, kind) {
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(lat, lng),
         map: map,
-        icon: icons[icon],
+        icon: setIcons(kind),
         animation: google.maps.Animation.DROP,
         url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`
     });
@@ -24,27 +24,27 @@ function clusterMarkers(map, markers) {
         {styles: [
             {
                 height: 38,
-                url: icons["m1"],
+                url: icons["Clusters"]["Over 10 damaged homes"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["m2"],
+                url: icons["Clusters"]["Over 20 damaged homes"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["m3"],
+                url: icons["Clusters"]["Over 30 damaged homes"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["m4"],
+                url: icons["Clusters"]["Over 40 damaged homes"],
                 width: 38,
             },
             {
                 height: 38,
-                url: icons["m5"],
+                url: icons["Clusters"]["Over 50 damaged homes"],
                 width: 38,
             }
         ]}
@@ -76,21 +76,33 @@ function addArea(lat, lng, radius) {
 
 function addLegend(id) {
     var legend = document.getElementById(id);
-    var table = document.createElement(table);
-    for (iconName in icons) {
-        // Table elements
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        // Icon
-        var icon = document.createElement('img');
-        icon.src = icons[iconName];
-        // Fill td
-        td.appendChild(icon);
-        td.innerHTML += ' ' + iconName;
-        // Fill tr
-        tr.appendChild(td);
-        // Fill table
-        table.appendChild(tr);
+    var legendTitle = document.createElement('h3');
+    legendTitle.innerHTML = 'Legend';
+    legend.appendChild(legendTitle);
+    var row = document.createElement('div');
+    row.classList.add("row");
+    for (iconsSet in icons) {
+        // Creating html elements
+        var p = document.createElement('p');
+        var col = document.createElement('div');
+        var setTitle = document.createElement('h4');
+        setTitle.innerHTML = iconsSet;
+        col.classList.add("col-sm-6");
+        col.classList.add("col-12");
+        col.appendChild(setTitle);
+        
+        // Filling html elements
+        for (iconName in icons[iconsSet]) {
+            var span = document.createElement('span');
+            var icon = document.createElement('img');
+            icon.src = icons[iconsSet][iconName];
+            span.appendChild(icon);
+            span.innerHTML += ' ' + iconName;
+            col.appendChild(span);
+            col.innerHTML += '<br>';
+        }
+        col.append(p);
+        row.appendChild(col);
     }
-    legend.appendChild(table);
+    legend.appendChild(row)
 }

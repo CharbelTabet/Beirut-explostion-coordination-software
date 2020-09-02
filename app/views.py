@@ -196,3 +196,17 @@ class Damages(View):
 
     def get(self, request):
         return JsonResponse(self.objects(request), safe=False)
+
+class mapData(View):
+    data = queries.queries()
+    def objects(self):
+        objects = self.data.mapData()
+        return list(objects)
+
+    def get(self, request):
+        return JsonResponse(self.objects(), safe=False)
+
+class userMapData(View):
+    data = queries.queries()
+    def get(self, request):
+        return JsonResponse(self.data.userMapData(self.kwargs['userId']))

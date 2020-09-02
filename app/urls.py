@@ -30,6 +30,9 @@ urlpatterns = [
     path('need/delete/<slug:pk>/', views.DeleteNeed.as_view(), name='deleteNeed'),
     
     # Data
+    path('data/map/', views.mapData.as_view(), name='mapData'),
+    path('data/map/:userId/', views.userMapData.as_view(), name='userMapData'),
+    
     path('areas', views.Areas.as_view()),
     path('positions', views.Positions.as_view()),
     path('damages', views.Damages.as_view()),
