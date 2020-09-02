@@ -32,13 +32,22 @@ class register(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        newUser = User.objects.create_user(request.POST['username'])
+        newUser = User.objects.create_user(request.POST['username'].lower())
         newUser.email = request.POST['email']
         newUser.set_password(request.POST['password'])
         newUser.first_name = request.POST['first']
         newUser.last_name = request.POST['last']
-        newUser.save()
-        return HttpResponseRedirect('/')
+
+        if User.objects.filter(username = request.POST['username'].lower()).count():
+            return render(request, self.template_name, {'error_message': 'Username exists'})
+
+        if User.objects.filter(email = request.POST['email'].lower()).count():
+            return render(request, self.template_name, {'error_message': 'Email exists'})
+
+        else:
+            newUser.save()
+            login(request, newUser)
+            return HttpResponseRedirect('/')
 
 class forgot(TemplateView):
     template_name = 'auth/forgot.html'
