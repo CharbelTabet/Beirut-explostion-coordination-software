@@ -23,8 +23,25 @@ def handler404(request, exception, template_name="errors/404.html"):
 class Map(TemplateView):
     template_name = 'maps/mainMap.html'
 
+class userMap(View):
+    template_name='maps/userMap.html'
+
+    def get(self, request, username):
+        return render(request, self.template_name, {})
+
 class MapsList(TemplateView):
     template_name ='maps/mapsList.html' 
+
+    def get(self, request):
+        stats = queries.queries()
+        usersStats = {}
+        users = User.objects.all()
+        for user in users:
+            usersStats[user.username] = stats.userStats(user.id)
+        context = {}
+        context["usersStats"] = usersStats
+        context["users"] = users
+        return render(request, self.template_name, context)
 
 # Dashboard views
 class mainDashboard(View):
@@ -197,16 +214,24 @@ class Damages(View):
     def get(self, request):
         return JsonResponse(self.objects(request), safe=False)
 
-class mapData(View):
+class userPositions(View):
     data = queries.queries()
-    def objects(self):
-        objects = self.data.mapData()
-        return list(objects)
+    def objects(self, request):
+        user = User.objects.get(username = self.kwargs['username'])
+        dic = self.data.userPositions(user.id)
+        positions = dic['positions']
+        return list(positions)
 
-    def get(self, request):
-        return JsonResponse(self.objects(), safe=False)
+    def get(self, request, username):
+        return JsonResponse(self.objects(request), safe=False)
 
-class userMapData(View):
+class userDamages(View):
     data = queries.queries()
-    def get(self, request):
-        return JsonResponse(self.data.userMapData(self.kwargs['userId']))
+    def objects(self, request):
+        user = User.objects.get(username = self.kwargs['username'])
+        dic = self.data.userDamages(user.id)
+        damages = dic['damages']
+        return list(damages)  
+
+    def get(self, request, username):
+        return JsonResponse(self.objects(request), safe=False)

@@ -14,12 +14,12 @@
     <!-- Navbar-->
     <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="text-white">{% if request.user.username %}Logged in as: {{ request.user.username }}{% endif %}</span>&nbsp;&nbsp;<i class="fas fa-user fa-fw"></i></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 {% if request.user.username %}
-                    <div class="dropdown-item">{{ request.user.username }}</div>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'userDashboard' request.user.username %}">My dashboard</a>
+                    <a class="dropdown-item" href="{% url 'userMap' request.user.username %}">My map</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     {% else %}
                     <a class="dropdown-item" href="{% url 'login' %}">Login</a>

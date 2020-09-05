@@ -1,33 +1,6 @@
-{% extends '../layouts/main.html' %}
-{% load static %}
-{% block content %}
-<div>
-    <!-- Header -->
-    <h1 class="mt-4">{% if title %}{{ title }}{% else %}Community Dashboards{% endif %}</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">User specific dashboards</li>
-    </ol>
-    <!-- Grid -->
-    <div class="row">
-        {% for username in usersStats.items %}
-            <div class="col-lg-6 col-sm-12" >
-                <div style="background-color: #DCDCDC">
-                    <div class="row" style="height: 150px;">
-                        <div class="col-12">
-                            <div class="display-3 m-3">{{ username.0 }}</div>
-                        </div>
-                    </div>
-                    <div class="row" style="height: 150px;">
-                        <div class="col-6"><div class="display-4  text-success">{{ username.1.positionsCount }}<small> positions</small></div></div>
-                        <div class="col-6"><div class="display-4 text-warning">{{ username.1.damagesCount }}<small> damages</small></div></div>
-                        <div class="col-12"><div class="display-4 text-danger"><center>{{ username.1.positionsInNeed }}<small> position in need</small></center></div></div>
-                    </div>
-                </div>  
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active"><a href="{% url 'userDashboard' username.0 %}">User specific dashboards</a></li>
-                </ol>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-{% endblock %}
+{% extends '../layouts/usersGrid.html' %}
+{% block title %}Community Dashboards{% endblock %}
+{% block name %}specific dashboard{% endblock %}
+{% block description %}User specific dashboards{% endblock %}
+{% block linkText %}Go to {{ username.0 }}'s dashboard{% endblock %}
+{% block link %}{% url 'userDashboard' username.0 %}{% endblock %}

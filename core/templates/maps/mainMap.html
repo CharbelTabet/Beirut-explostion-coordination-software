@@ -14,17 +14,34 @@
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsdSifw0uEsgwuqe5cWh2FZZRhoYUg-6c&callback=initMap&libraries=&v=weekly"
   defer
 ></script>
-<script src="static/assets/icons/icons.js"></script>
+<script src="{% static './assets/icons/icons.js' %}"></script>
 <script src="{% static './js/map.js' %}"></script>
 <script>
   "use strict";
 
   function initMap() { 
     // Map object
-    let map = createMap();
-  
+    var map = createMap();
+    var fetchUrls;
+    var fetchUrls;
+    try {
+      var user = document.getElementById('user').innerHTML;
+      fetchUrls = {
+        areas: `/areas`,
+        positions: `/positions/${user}`,
+        damages: `/damages/${user}`
+      }
+    }
+    catch {
+      fetchUrls = {
+        areas: '/areas',
+        positions: '/positions',
+        damages: '/damages'
+      }
+    }
+
     // Fetching areas and adding shapes
-    fetch('/areas')
+    fetch(fetchUrls.areas)
       .then(response => response.json())
       .then(json => {
         let i;
@@ -34,7 +51,7 @@
       })
 
     // Adding position
-    fetch('/positions')
+    fetch(fetchUrls.positions)
       .then(response => response.json())
       .then(json => {
         var markers = [];
@@ -48,7 +65,7 @@
       })
 
     // Adding damged places
-    fetch('/damages')
+    fetch(fetchUrls.damages)
       .then(response => response.json())
       .then(json => {
         var markers = [];
@@ -68,6 +85,7 @@
 </script>
 <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
 </script>
+<div id="description">{% block description %}{% endblock %}</div>
 <div style="height: 83.8vh; margin: auto -24px;">
   <div id="map" style="height: 100%;"></div>
 </div>

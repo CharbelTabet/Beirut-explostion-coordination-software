@@ -4,12 +4,13 @@ from . import views
 urlpatterns = [
     # Map views
     path('', views.Map.as_view(), name='map'),
-    path('mapslist', views.MapsList.as_view(), name='mapslist'),
+    path('maps/<str:username>/', views.userMap.as_view(), name='userMap'),
+    path('maps', views.MapsList.as_view(), name='mapslist'),
 
     # Dashboard views
     path('dashboard', views.mainDashboard.as_view(), name='dashboard'),
-    path('<str:username>/dashboard/', views.userDashboard.as_view(), name='userDashboard'),
-    path('dashboardslist', views.DashboardsList.as_view(), name='dashboardslist'),
+    path('dashboards/<str:username>/', views.userDashboard.as_view(), name='userDashboard'),
+    path('dashboards', views.DashboardsList.as_view(), name='dashboardslist'),
 
     # Create views
     path('addpostion', views.CreatePosition.as_view(), name='addpin'),
@@ -30,12 +31,10 @@ urlpatterns = [
     path('need/delete/<slug:pk>/', views.DeleteNeed.as_view(), name='deleteNeed'),
     
     # Data
-    path('data/map/', views.mapData.as_view(), name='mapData'),
-    path('data/map/:userId/', views.userMapData.as_view(), name='userMapData'),
-    
     path('areas', views.Areas.as_view()),
     path('positions', views.Positions.as_view()),
-    path('damages', views.Damages.as_view()),
-
+    path('positions/<str:username>', views.userPositions.as_view()),
+    path('damages', views.Damages.as_view()),    
+    path('damages/<str:username>', views.userDamages.as_view()),
     # User specific views
 ]

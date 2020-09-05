@@ -39,3 +39,8 @@ class queries():
             }
         }
         
+    def userPositions(self, userId):
+        return {"positions": self.positions.filter(user=userId).values()}
+    
+    def userDamages(self, userId):
+        return {"damages": self.damages.filter(user=userId).values()}

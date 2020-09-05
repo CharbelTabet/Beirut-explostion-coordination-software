@@ -1,35 +1,6 @@
-{% extends '../layouts/main.html' %}
-{% load static %}
-{% block content %}
-<div>
-    <!-- Header -->
-    <h1 class="mt-4">Community Maps - Comming Soon</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">User specific maps</li>
-    </ol>
-    <div class="row mt-4" style="height: 400px;">
-        <div class="col-lg-6 col-md-12">
-            <div class="bg-dark" style="height: 100%;"></div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="bg-dark" style="height: 100%;"></div>
-        </div>
-    </div>
-    <div class="row mt-4" style="height: 400px;">
-        <div class="col-lg-6 col-md-12">
-            <div class="bg-danger" style="height: 100%;"></div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="bg-danger" style="height: 100%;"></div>
-        </div>
-    </div>
-    <div class="row mt-4" style="height: 400px;">
-        <div class="col-lg-6 col-md-12">
-            <div class="bg-dark" style="height: 100%;"></div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="bg-dark" style="height: 100%;"></div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+{% extends '../layouts/usersGrid.html' %}
+{% block title %}Community Maps{% endblock %}
+{% block name %}specific maps{% endblock %}
+{% block description %}User specific maps{% endblock %}
+{% block linkText %}Go to {{ username.0 }}'s map{% endblock %}
+{% block link %}{% url 'userMap' username.0 %}{% endblock %}

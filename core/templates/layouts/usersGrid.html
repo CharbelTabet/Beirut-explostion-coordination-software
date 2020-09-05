@@ -1,0 +1,39 @@
+{% extends '../layouts/main.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <!-- Header -->
+    <h1 class="mt-4">{% block title %}{% endblock %}</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">{% block description %}{% endblock %}</li>
+    </ol>
+    <!-- Grid -->
+    <div class="row">
+        {% for username in usersStats.items %}
+            <div class="col-md-6 col-12" >
+                <div class="card mb-4" id="Positions">
+                    <div class="card-header">
+                        <i class="fas fa-user"></i>
+                        <b>&nbsp;{{ username.0 }}</b>'s {% block name %}{% endblock %}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 h5 text-success">Positions</div>
+                            <div class="col-4 h5 text-warning">Damages</div>
+                            <div class="col-4 h5 text-danger">In need</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 display-4 text-success">{{ username.1.positionsCount }}</div>
+                            <div class="col-4 display-4 text-warning">{{ username.1.damagesCount }}</div>
+                            <div class="col-4 display-4 text-danger">{{ username.1.positionsInNeed }}</div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% block link %}{% endblock %}"><i class="fas fa-link text-dark"></i>&nbsp;{% block linkText %}{% endblock %}</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
