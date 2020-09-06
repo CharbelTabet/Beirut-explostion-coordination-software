@@ -1,0 +1,32 @@
+{% extends '../layouts/main.html' %}
+{% block content %}
+<h1 class="mt-4">{{ username }}'s profile</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">users profiles</li>
+    <li class="breadcrumb-item active">{{ username }}</li>
+</ol>
+<div class="card mb-4" id="Positions">
+    <div class="card-header">
+        <i class="fas fa-user"></i>
+        <b>&nbsp;{{ username }}</b>'s stats
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4 h5 text-success">Positions</div>
+            <div class="col-4 h5 text-warning">Damages</div>
+            <div class="col-4 h5 text-danger">In need</div>
+        </div>
+        <div class="row">
+            <div class="col-4 display-4 text-success">{{ userStats.positionsCount }}</div>
+            <div class="col-4 display-4 text-warning">{{ userStats.damagesCount }}</div>
+            <div class="col-4 display-4 text-danger">{{ userStats.positionsInNeed }}</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-6"><a href="/maps/{{ username }}"><i class="fas fa-link text-dark"></i>&nbsp;map</a></div>
+            <div class="col-6"><a href="/dashboards/{{ username }}"><i class="fas fa-link text-dark"></i>&nbsp;dashboard</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

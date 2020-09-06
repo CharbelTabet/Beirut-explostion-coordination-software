@@ -200,6 +200,10 @@ class Positions(View):
     model = models.position
     def objects(self, request):
         objects = self.model.objects.values()
+        for element in objects:
+            userId = element['user_id']
+            user = User.objects.get(id=userId)
+            element['user'] = user.username
         return list(objects)
 
     def get(self, request):
@@ -239,3 +243,12 @@ class userDamages(View):
 class csvTest(View):
     def get(self, request):
         return HttpResponse('')
+
+# User views
+class userView(View):
+    template_name = 'usersviews/userView.html'
+    def get(self, request, username):
+        stats = queries.queries()
+        user = get_object_or_404(User.objects.filter(username=username))
+        userStats = stats.userStats(user.id)
+        return render(request, 'userviews/userView.html', {'username': self.kwargs['username'], 'userStats': userStats})

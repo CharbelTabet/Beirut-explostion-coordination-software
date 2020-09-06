@@ -37,6 +37,8 @@ urlpatterns = [
     path('damages', views.Damages.as_view()),    
     path('damages/<str:username>', views.userDamages.as_view()),
 
-    # User specific views
     path('csv', views.csvTest.as_view(), name='csv'),
+
+    # User specific views
+    path('<str:username>', views.userView.as_view()),
 ]
