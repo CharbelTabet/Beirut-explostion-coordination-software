@@ -27,7 +27,7 @@ class userMap(View):
     template_name='maps/userMap.html'
 
     def get(self, request, username):
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, {'username': username})
 
 class MapsList(TemplateView):
     template_name ='maps/mapsList.html' 
