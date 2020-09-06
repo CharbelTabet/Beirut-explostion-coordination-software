@@ -40,5 +40,5 @@ urlpatterns = [
     path('csv', views.csvTest.as_view(), name='csv'),
 
     # User specific views
-    path('<str:username>', views.userView.as_view()),
+    path('<str:username>', views.userView.as_view(), name='user'),
 ]
