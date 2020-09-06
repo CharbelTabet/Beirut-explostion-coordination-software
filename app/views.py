@@ -235,3 +235,7 @@ class userDamages(View):
 
     def get(self, request, username):
         return JsonResponse(self.objects(request), safe=False)
+
+class csvTest(View):
+    def get(self, request):
+        return HttpResponse('')

@@ -32,19 +32,24 @@ class register(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        newUser = User.objects.create_user(request.POST['username'].lower())
-        newUser.email = request.POST['email']
-        newUser.set_password(request.POST['password'])
-        newUser.first_name = request.POST['first']
-        newUser.last_name = request.POST['last']
+        context = {}
+        context['username'] = request.POST['username']
+        context['email'] = request.POST['email']
+        context['error_messages'] = []
 
-        if User.objects.filter(username = request.POST['username'].lower()).count():
-            return render(request, self.template_name, {'error_message': 'Username exists'})
+        if User.objects.filter(username = request.POST['username'].lower()):
+            context['error_messages'].append('Username exists')
 
-        if User.objects.filter(email = request.POST['email'].lower()).count():
-            return render(request, self.template_name, {'error_message': 'Email exists'})
+        if User.objects.filter(email = request.POST['email'].lower()):
+            context['error_messages'].append('Email exists')
+
+        if context['error_messages']:    
+            return render(request, self.template_name, context)
 
         else:
+            newUser = User.objects.create_user(request.POST['username'].lower())
+            newUser.email = request.POST['email']
+            newUser.set_password(request.POST['password'])
             newUser.save()
             login(request, newUser)
             return HttpResponseRedirect('/')
